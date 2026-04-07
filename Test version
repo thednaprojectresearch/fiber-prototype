@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FIBER</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #0e0e0d; --bg2: #141412; --text: #f0ece0; --dim: #7a7568;
+        --accent: #a8c870; --border: #262624; --font-display: 'EB Garamond', serif; --font-mono: 'Space Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-mono); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 500px; margin: 0 auto; padding: 40px 24px; min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* Typography */
+    .hero { font-family: var(--font-display); font-size: 3rem; line-height: 0.95; font-style: italic; margin-bottom: 24px; letter-spacing: -1px; }
+    .label { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--dim); margin-bottom: 12px; display: block; }
+    
+    /* UI Elements */
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: block; animation: fadeIn 0.3s ease-out; }
+    .card { background: var(--bg2); border: 1px solid var(--border); padding: 20px; margin-bottom: 16px; }
+    .btn { 
+        background: var(--text); color: var(--bg); border: none; padding: 20px; width: 100%; 
+        font-family: var(--font-mono); font-size: 12px; font-weight: 700; text-transform: uppercase; 
+        letter-spacing: 2px; cursor: pointer; display: flex; justify-content: space-between;
+    }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    
+    /* Mirror Grid */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+    .tile { 
+        border: 1px solid var(--border); padding: 16px; font-size: 11px; color: var(--dim);
+        min-height: 70px; display: flex; align-items: flex-end; transition: 0.2s;
+    }
+    .tile.selected { border-color: var(--accent); color: var(--accent); background: rgba(168, 200, 112, 0.05); }
+
+    /* Inputs */
+    textarea { 
+        width: 100%; background: var(--bg2); border: 1px solid var(--border); color: var(--text); 
+        padding: 15px; font-family: var(--font-display); font-size: 18px; margin-bottom: 20px; outline: none;
+    }
+
+    /* Stats */
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .stat-box { border: 1px solid var(--border); padding: 15px 5px; text-align: center; }
+    .stat-num { font-family: var(--font-display); font-size: 24px; display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .spinner { width: 30px; height: 30px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div id="scr-landing" class="screen active">
+    <div class="container">
+        <span class="label">Bengaluru · Est. 2026</span>
+        <h1 class="hero">Better than every shopping app <span style="color:var(--accent)">combined.</span></h1>
+        <p style="color: var(--dim); font-size: 14px; margin-bottom: 40px;">No ads. No affiliate cuts. No engineered impulse. Just your identity, mirrored.</p>
+        <button class="btn" onclick="show('mirror1')">Build my mirror <span>→</span></button>
+    </div>
+</div>
+
+<div id="scr-mirror1" class="screen">
+    <div class="container">
+        <span class="label">Stage 01 // Instinct</span>
+        <h2 class="hero" style="font-size: 2rem;">Just react.</h2>
+        <div class="grid" id="tile-grid"></div>
+        <div style="margin-top: auto; padding-top: 30px;">
+            <div style="display:flex; justify-content: space-between; margin-bottom: 15px;">
+                <span class="label">Signals: <span id="count" style="color:var(--text)">0</span></span>
+                <span class="label">Min: 5</span>
+            </div>
+            <button class="btn" id="next1" disabled onclick="show('mirror2')">Continue <span>→</span></button>
+        </div>
+    </div>
+</div>
+
+<div id="scr-mirror2" class="screen">
+    <div class="container">
+        <span class="label">Stage 02 // Confession</span>
+        <h2 class="hero" style="font-size: 2rem;">Be honest.</h2>
+        <p class="label" style="margin-bottom: 10px;">"When nobody is watching, I usually..."</p>
+        <textarea rows="3" placeholder="Go on..."></textarea>
+        <button class="btn" onclick="process()">Generate Mirror <span>→</span></button>
+    </div>
+</div>
+
+<div id="scr-proc" class="screen">
+    <div class="container" style="justify-content: center; align-items: center; text-align: center;">
+        <div class="spinner"></div>
+        <span class="label">Analyzing structural alignment...</span>
+    </div>
+</div>
+
+<div id="scr-dash" class="screen">
+    <div class="container">
+        <div style="display:flex; justify-content: space-between; margin-bottom: 30px;">
+            <span class="label" style="color:var(--text)">F · I · B · E · R</span>
+            <span class="label">APR 2026</span>
+        </div>
+        <div class="card" style="border-left: 3px solid var(--accent);">
+            <span class="label" style="color:var(--accent)">Mirror Pulse</span>
+            <p style="font-size: 14px;">Your style engine is calibrated to <span style="color:var(--accent)">Utility-Brutalist</span>.</p>
+        </div>
+        <div class="stat-row">
+            <div class="stat-box"><span class="stat-num">12</span><span class="label" style="font-size:8px">Vault</span></div>
+            <div class="stat-box"><span class="stat-num">₹84</span><span class="label" style="font-size:8px">Avg/Wear</span></div>
+            <div class="stat-box"><span class="stat-num">3</span><span class="label" style="font-size:8px">Cooling</span></div>
+        </div>
+        <div class="card">
+            <span class="label">Active Cooling</span>
+            <p style="font-size: 13px; color: var(--dim);">Olive Cargo Trousers — 4 days left.</p>
+        </div>
+        <button class="btn" style="margin-top:auto; background: transparent; border: 1px solid var(--border); color: var(--dim);" onclick="show('landing')">Reset Engine</button>
+    </div>
+</div>
+
+<script>
+    const TILES = ["90s Hip Hop", "Military Utility", "3AM Awake", "Quiet Luxury", "Raw Denim", "Old Bangalore", "Midnight Highway", "Messy Desk", "Cricket", "Cold Mountains"];
+    let selected = 0;
+
+    function init() {
+        const grid = document.getElementById('tile-grid');
+        TILES.forEach(t => {
+            const d = document.createElement('div');
+            d.className = 'tile';
+            d.innerText = t;
+            d.onclick = () => {
+                d.classList.toggle('selected');
+                selected += d.classList.contains('selected') ? 1 : -1;
+                document.getElementById('count').innerText = selected;
+                document.getElementById('next1').disabled = selected < 5;
+            };
+            grid.appendChild(d);
+        });
+    }
+
+    function show(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('scr-' + id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function process() {
+        show('proc');
+        setTimeout(() => show('dash'), 2000);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
+
