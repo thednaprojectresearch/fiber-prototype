@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FIBER | OS.1</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    :root { --bg: #0a0a0a; --text: #d1d1d1; --accent: #a8c870; --danger: #ff4d4d; --border: #222; }
+    * { box-sizing: border-box; margin: 0; padding: 0; cursor: crosshair; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; font-size: 11px; line-height: 1.4; letter-spacing: -0.2px; }
+    
+    /* Layout */
+    .interface { max-width: 500px; margin: 0 auto; border-left: 1px solid var(--border); border-right: 1px solid var(--border); min-height: 100vh; }
+    .row { display: flex; border-bottom: 1px solid var(--border); }
+    .col { flex: 1; padding: 15px; border-right: 1px solid var(--border); }
+    .col:last-child { border-right: none; }
+    
+    /* Typography */
+    .label { color: #555; font-size: 9px; text-transform: uppercase; margin-bottom: 8px; display: block; letter-spacing: 1px; }
+    .value { color: var(--text); font-weight: 700; }
+    .accent { color: var(--accent); }
+    h1 { font-size: 18px; padding: 20px; text-transform: uppercase; border-bottom: 1px solid var(--border); letter-spacing: -0.5px; }
+
+    /* Input & Modules */
+    textarea { width: 100%; background: transparent; border: 1px solid var(--border); color: var(--accent); padding: 12px; font-family: inherit; font-size: 11px; resize: none; outline: none; transition: 0.3s; }
+    textarea:focus { border-color: var(--accent); background: #0f0f0f; }
+    
+    .btn { background: #1a1a1a; color: var(--text); border: none; padding: 15px; width: 100%; font-family: inherit; font-size: 10px; text-transform: uppercase; font-weight: 700; border: 1px solid var(--border); transition: 0.2s; }
+    .btn:hover { background: var(--text); color: #000; }
+    .btn:active { background: var(--accent); border-color: var(--accent); }
+
+    /* Visualizing the "Moat" */
+    .cpw-meter { height: 4px; background: #111; margin-top: 10px; position: relative; overflow: hidden; }
+    .cpw-fill { height: 100%; background: var(--accent); width: 0%; transition: 1s ease-in-out; }
+
+    /* Scan Animation */
+    .scanning { position: relative; }
+    .scanning::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent); animation: scan 2s infinite; opacity: 0.3; }
+    @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+</style>
+</head>
+<body>
+
+<div class="interface">
+    <div class="row">
+        <div class="col"><span class="label">Unit</span><span class="value">FIBER_SYS.01</span></div>
+        <div class="col"><span class="label">Status</span><span class="value accent">OPERATIONAL</span></div>
+    </div>
+
+    <h1>Fabric Intelligence Engine</h1>
+
+    <div class="row">
+        <div class="col">
+            <span class="label">Moat Logic</span>
+            <p style="color:#888;">Conventional e-commerce relies on hidden synthetics. We expose the structural integrity of the garment before you pay.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col scanning">
+            <span class="label">Fabric Input [Paste Label Data]</span>
+            <textarea id="fabricData" rows="4" placeholder="INPUT: 95% POLYESTER, 5% ELASTANE..."></textarea>
+            <button class="btn" style="margin-top:10px;" onclick="runDiagnosis()">Execute Diagnosis</button>
+        </div>
+    </div>
+
+    <div id="diag-module" style="display:none;">
+        <div class="row">
+            <div class="col" style="background:#111;">
+                <span class="label">Structural Analysis</span>
+                <div id="output-text" class="value" style="font-size:12px;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <span class="label">CPW Projection [Cost-Per-Wear]</span>
+                <span id="cpw-status" class="value">Calculating...</span>
+                <div class="cpw-meter"><div id="cpw-bar" class="cpw-fill"></div></div>
+            </div>
+            <div class="col">
+                <span class="label">Recommendation</span>
+                <span id="rec-status" class="value">...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:40px; border-top: 1px solid var(--border);">
+        <div class="col" style="text-align:center;">
+            <span class="label">FIBER_BEN_EST.2026</span>
+            <span style="color:#444; font-size:8px;">BENGALURU TECH INFRASTRUCTURE</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function runDiagnosis() {
+        const input = document.getElementById('fabricData').value.toLowerCase();
+        const output = document.getElementById('output-text');
+        const cpwBar = document.getElementById('cpw-bar');
+        const cpwStatus = document.getElementById('cpw-status');
+        const recStatus = document.getElementById('rec-status');
+        const module = document.getElementById('diag-module');
+
+        module.style.display = 'block';
+        cpwBar.style.width = '0%';
+
+        setTimeout(() => {
+            if(input.includes('poly') || input.includes('nylon')) {
+                output.innerHTML = "CRITICAL: HIGH PLASTIC CONTENT DETECTED. FABRIC WILL TRAP HEAT IN HUMID BENGALURU CLIMATES.";
+                cpwStatus.innerHTML = "FAIL: HIGH DEGRADATION";
+                cpwStatus.style.color = "var(--danger)";
+                cpwBar.style.width = "20%";
+                cpwBar.style.background = "var(--danger)";
+                recStatus.innerHTML = "REJECT";
+                recStatus.style.color = "var(--danger)";
+            } else if (input.includes('cotton') || input.includes('linen')) {
+                output.innerHTML = "OPTIMAL: NATURAL FIBERS DETECTED. HIGH BREATHABILITY INDEX. IDEAL FOR 18-32°C RANGE.";
+                cpwStatus.innerHTML = "PASS: LONG-TERM UTILITY";
+                cpwStatus.style.color = "var(--accent)";
+                cpwBar.style.width = "90%";
+                cpwBar.style.background = "var(--accent)";
+                recStatus.innerHTML = "VALIDATED";
+                recStatus.style.color = "var(--accent)";
+            } else {
+                output.innerHTML = "ERROR: INSUFFICIENT DATA. PLEASE PROVIDE MATERIAL PERCENTAGES.";
+            }
+        }, 800);
+    }
+</script>
+
+</body>
+</html>
+
