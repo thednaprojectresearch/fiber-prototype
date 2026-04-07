@@ -2,256 +2,97 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>FIBER</title>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FIBER | Identity Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0e0e0d;--bg2:#181816;--bg3:#222220;--text:#f0ece0;--text2:#c0bba8;--text3:#7a7568;--accent:#a8c870;--accent2:#7a9a50;--danger:#d07868;--border:#2a2a26;--border2:#3a3a34;}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html{font-size:17px;}
-body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
-.screen{display:none;min-height:100vh;}
-.screen.active{display:flex;flex-direction:column;}
-.display{font-family:'EB Garamond',serif;font-size:clamp(2.2rem,7vw,3.8rem);line-height:1.1;}
-.display-sm{font-family:'EB Garamond',serif;font-size:clamp(1.7rem,5vw,2.5rem);line-height:1.15;}
-.italic{font-style:italic;}
-.label{font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;}
-.body{font-size:16px;line-height:1.7;color:var(--text2);}
-.container{max-width:640px;margin:0 auto;padding:0 20px;width:100%;}
-.btn{font-family:'Space Mono',monospace;font-size:13px;padding:14px 24px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--text);cursor:pointer;transition:all .15s ease;letter-spacing:.5px;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;white-space:nowrap;}
-.btn:hover{border-color:var(--text2);background:var(--bg2);}
-.btn:active{transform:scale(.97);}
-.btn-primary{background:var(--accent);color:#0e0e0d;border-color:var(--accent);font-weight:700;}
-.btn-primary:hover{background:var(--accent2);border-color:var(--accent2);color:#0e0e0d;}
-.btn-ghost{border-color:transparent;color:var(--text3);}
-.btn-ghost:hover{color:var(--text2);background:transparent;border-color:transparent;}
-.btn:disabled{opacity:.35;cursor:not-allowed;transform:none;}
-textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:16px;font-family:'EB Garamond',serif;font-size:18px;line-height:1.6;outline:none;resize:none;min-height:90px;transition:border-color .2s;}
-textarea::placeholder{color:var(--text3);font-style:italic;}
-textarea:focus{border-color:var(--accent);}
-.progress-bar{height:2px;background:var(--border);width:100%;}
-.progress-fill{height:2px;background:var(--accent);transition:width .4s ease;}
-.sticky-footer{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--border);padding:16px 20px;z-index:10;}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:22px;}
-.divider{height:1px;background:var(--border);margin:24px 0;}
-.spinner{width:26px;height:26px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 18px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.fade-up{animation:fadeUp .35s ease forwards;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.scroll-content{flex:1;overflow-y:auto;padding-bottom:20px;}
-.mood-board{display:flex;flex-wrap:wrap;gap:9px;padding:16px 20px;align-content:flex-start;}
-.tile{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:11px 15px;cursor:pointer;color:var(--text2);transition:all .12s ease;user-select:none;line-height:1.4;min-height:44px;display:inline-flex;align-items:center;gap:7px;font-size:13px;}
-.tile:active{transform:scale(.93);}
-.tile.selected{border:2px solid var(--accent);background:rgba(168,200,112,.09);color:var(--text);}
-.tile-sm{font-size:12px;padding:9px 13px;}
-.tile-lg{font-size:14px;padding:13px 18px;}
-.tile-xl{font-size:15px;padding:14px 20px;font-family:'EB Garamond',serif;font-style:italic;}
-.tile-emoji{font-size:14px;flex-shrink:0;}
-.brand-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:11px;}
-.brand-name{font-family:'EB Garamond',serif;font-size:21px;color:var(--text);}
-.brand-tagline{font-size:11px;color:var(--text3);margin-bottom:11px;}
-.brand-why{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:11px;}
-.tag-accent{font-size:10px;letter-spacing:1px;padding:4px 8px;border-radius:4px;background:rgba(168,200,112,.1);color:var(--accent);border:1px solid rgba(168,200,112,.3);}
-.cat-filter{display:flex;gap:7px;overflow-x:auto;padding:0 20px 14px;scrollbar-width:none;}
-.cat-filter::-webkit-scrollbar{display:none;}
-.cat-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;padding:7px 13px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;white-space:nowrap;min-height:34px;transition:all .15s;}
-.cat-btn.active{background:var(--accent);color:#0e0e0d;border-color:var(--accent);font-weight:700;}
-.mirror-stat{border-bottom:1px solid var(--border);padding:18px 0;}
-.mirror-stat:last-child{border-bottom:none;}
-.mirror-stat-label{font-size:10px;letter-spacing:2px;color:var(--accent);margin-bottom:6px;}
-.mirror-stat-value{font-family:'EB Garamond',serif;font-size:21px;color:var(--text);line-height:1.3;}
-.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
-.stat-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 10px;text-align:center;}
-.stat-number{font-family:'EB Garamond',serif;font-size:26px;color:var(--text);display:block;line-height:1;margin-bottom:5px;}
-.stat-label-sm{font-size:9px;letter-spacing:1.5px;color:var(--text3);}
-.pulse-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:18px;margin-bottom:13px;}
-.ci{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);gap:12px;}
-.ci:last-child{border-bottom:none;}
-.cool-bg{height:3px;background:var(--border);border-radius:2px;margin-top:6px;}
-.cool-fill{height:3px;background:var(--accent);border-radius:2px;}
-.nav{display:flex;border-top:1px solid var(--border);background:var(--bg);}
-.nav-item{flex:1;padding:12px 6px 10px;text-align:center;cursor:pointer;font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;transition:color .15s;border:none;background:transparent;font-family:'Space Mono',monospace;min-height:48px;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.nav-item.active{color:var(--accent);}
-.ndot{width:3px;height:3px;border-radius:50%;background:var(--accent);display:none;}
-.nav-item.active .ndot{display:block;}
+    :root {
+        --bg: #0e0e0d; --card: #141412; --text: #f0ece0; --dim: #7a7568;
+        --accent: #a8c870; --border: #262624; --font-display: 'EB Garamond', serif; --font-mono: 'Space Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { 
+        background: var(--bg); color: var(--text); font-family: var(--font-mono); 
+        line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 480px; margin: 0 auto; padding: 40px 24px; }
+    
+    /* Typography */
+    .hero-text { font-family: var(--font-display); font-size: 3.2rem; line-height: 0.95; font-style: italic; margin-bottom: 24px; letter-spacing: -1px; }
+    .label { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--dim); margin-bottom: 8px; display: block; }
+    .accent-text { color: var(--accent); }
+    
+    /* Layout Elements */
+    .card { background: var(--card); border: 1px solid var(--border); padding: 24px; margin-bottom: 16px; border-radius: 2px; }
+    .divider { height: 1px; background: var(--border); margin: 32px 0; }
+    
+    /* Buttons */
+    .btn { 
+        background: transparent; border: 1px solid var(--text); color: var(--text);
+        padding: 18px; width: 100%; font-family: var(--font-mono); font-size: 12px;
+        text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.2s;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .btn-primary { background: var(--text); color: var(--bg); font-weight: 700; border: none; }
+    .btn:active { transform: scale(0.98); opacity: 0.8; }
+
+    /* The Mirror Grid */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .tile { 
+        border: 1px solid var(--border); padding: 16px; font-size: 11px; 
+        transition: all 0.2s; cursor: pointer; min-height: 80px; display: flex; align-items: flex-end;
+    }
+    .tile.selected { border-color: var(--accent); background: rgba(168, 200, 112, 0.05); color: var(--accent); }
+
+    .screen { display: none; min-height: 100vh; }
+    .active { display: block; animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 
-<div id="screen-landing" class="screen active">
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:56px 20px 40px;">
+<div id="landing" class="screen active">
     <div class="container">
-      <span class="label" style="display:block;margin-bottom:16px;color:var(--accent);">BENGALURU · EST. 2026</span>
-      <span style="font-size:10px;letter-spacing:5px;color:var(--text3);display:block;margin-bottom:6px;">F · I · B · E · R</span>
-      <h1 class="display italic" style="margin-bottom:14px;">Better than every e-commerce app — combined.</h1>
-      <p class="body" style="margin-bottom:26px;font-size:15px;">No ads. No affiliate cuts. No engineered impulse. Apparel, sneakers, fragrance, grooming, accessories — all matched to who you actually are.</p>
-      <div class="card" style="margin-bottom:20px;">
-        <span class="label" style="color:var(--accent);display:block;margin-bottom:12px;">WHAT FIBER DOES</span>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;gap:12px;"><span style="color:var(--accent);font-size:11px;flex-shrink:0;margin-top:2px;">01</span><span class="body" style="font-size:14px;">Builds your identity mirror from instinct — not surveys</span></div>
-          <div style="display:flex;gap:12px;"><span style="color:var(--accent);font-size:11px;flex-shrink:0;margin-top:2px;">02</span><span class="body" style="font-size:14px;">Matches you with Indian DTC brands across all categories</span></div>
-          <div style="display:flex;gap:12px;"><span style="color:var(--accent);font-size:11px;flex-shrink:0;margin-top:2px;">03</span><span class="body" style="font-size:14px;">Decodes fabric labels, exposes fake discounts, tracks cost-per-wear</span></div>
-          <div style="display:flex;gap:12px;"><span style="color:var(--accent);font-size:11px;flex-shrink:0;margin-top:2px;">04</span><span class="body" style="font-size:14px;">Succeeds when you buy less — no app is structurally built this way</span></div>
+        <span class="label">Bengaluru · Est. 2026</span>
+        <h1 class="hero-text">Standard commerce is <span class="accent-text">extractive.</span></h1>
+        <p style="color: var(--dim); font-size: 14px; margin-bottom: 40px;">FIBER is the structural anti-thesis. No ads. No engineered impulse. Just you, mirrored.</p>
+        
+        <div class="card">
+            <span class="label accent-text">The Moat</span>
+            <p style="font-size: 13px;">Built for the 1% of users who value fabric integrity over fast-fashion trends.</p>
         </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
-        <button class="btn btn-primary" onclick="goTo('mirror-1')" style="width:100%;font-size:14px;">build my mirror →</button>
-        <button class="btn" onclick="goTo('dashboard')" style="width:100%;">explore the app</button>
-      </div>
-      <div style="text-align:center;"><span class="label">₹199 / MONTH · FREE TIER AVAILABLE</span></div>
+
+        <button class="btn btn-primary" onclick="showScreen('mirror')">Build your mirror <span>→</span></button>
+        <p style="text-align: center; font-size: 9px; margin-top: 24px; color: var(--dim); letter-spacing: 1px;">₹199 / MONTH · PRIVACY FIRST</p>
     </div>
-  </div>
 </div>
 
-<div id="screen-mirror-1" class="screen">
-  <div style="padding:20px 20px 0;background:var(--bg);">
+<div id="mirror" class="screen">
     <div class="container">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <button class="btn btn-ghost" style="padding:8px 0;min-height:0;" onclick="goTo('landing')">← back</button>
-        <span class="label">STAGE 1 / 2</span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
-      <div style="margin:14px 0 4px;">
-        <h2 class="display-sm italic" style="margin-bottom:5px;">This isn't a form. Just react.</h2>
-        <p style="font-size:12px;color:var(--text3);">Scroll. Tap what pulls you. No categories. No right answers. Nothing is too random.</p>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-content">
-    <div id="mood-board" class="mood-board"></div>
-  </div>
-  <div class="sticky-footer">
-    <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
-      <div>
-        <span id="tile-count" style="font-family:'EB Garamond',serif;font-size:26px;color:var(--text);">0</span>
-        <span class="label" style="margin-left:5px;font-size:9px;">signals</span>
-        <div style="font-size:10px;color:var(--text3);margin-top:2px;">5 minimum to continue</div>
-      </div>
-      <button class="btn btn-primary" id="btn-next-1" disabled onclick="goTo('mirror-2')">continue →</button>
-    </div>
-  </div>
-</div>
-
-<div id="screen-mirror-2" class="screen">
-  <div style="padding:20px 20px 0;">
-    <div class="container">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <button class="btn btn-ghost" style="padding:8px 0;min-height:0;" onclick="goTo('mirror-1')">← back</button>
-        <span class="label">STAGE 2 / 2</span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
-      <div style="margin:14px 0 18px;">
-        <h2 class="display-sm italic" style="margin-bottom:5px;">Three confession prompts.</h2>
-        <p style="font-size:12px;color:var(--text3);">Optional. Talk to yourself, not to an app.</p>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-content" style="padding:0 20px;">
-    <div class="container">
-      <div style="margin-bottom:22px;"><span class="label" style="color:var(--text);display:block;margin-bottom:8px;">"When nobody is watching, I usually..."</span><textarea id="q1" rows="3" placeholder="be honest. no one's reading this but the algorithm."></textarea></div>
-      <div style="margin-bottom:22px;"><span class="label" style="color:var(--text);display:block;margin-bottom:8px;">"I feel most like myself when..."</span><textarea id="q2" rows="3" placeholder="finish the sentence."></textarea></div>
-      <div style="margin-bottom:30px;"><span class="label" style="color:var(--text);display:block;margin-bottom:8px;">"The thing I own that I'd never explain to anyone is..."</span><textarea id="q3" rows="3" placeholder="go on."></textarea></div>
-    </div>
-  </div>
-  <div class="sticky-footer">
-    <div class="container" style="display:flex;gap:10px;">
-      <button class="btn btn-ghost" onclick="buildMirror()">skip</button>
-      <button class="btn btn-primary" onclick="buildMirror()" style="flex:1;">generate my mirror →</button>
-    </div>
-  </div>
-</div>
-
-<div id="screen-processing" class="screen">
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px;text-align:center;">
-    <div class="spinner"></div>
-    <h2 class="display-sm italic" style="margin-bottom:12px;" id="proc-h">Reading your signals...</h2>
-    <p class="body" style="max-width:300px;font-size:14px;" id="proc-s">Analysing what you chose, not what you said.</p>
-  </div>
-</div>
-
-<div id="screen-reveal" class="screen">
-  <div class="scroll-content" style="padding:32px 20px;">
-    <div class="container">
-      <span class="label" style="color:var(--accent);display:block;margin-bottom:14px;">YOUR MIRROR · FIRST READING</span>
-      <h1 class="display italic" style="margin-bottom:8px;" id="m-headline">—</h1>
-      <p class="body" style="margin-bottom:26px;" id="m-subline">—</p>
-      <div class="divider"></div>
-      <div id="m-stats" style="margin-bottom:26px;"></div>
-      <div class="divider"></div>
-      <div class="card" style="margin-bottom:14px;background:rgba(168,200,112,.06);border-color:rgba(168,200,112,.2);">
-        <span class="label" style="color:var(--accent);display:block;margin-bottom:8px;">FIBER READS</span>
-        <p class="body" style="font-size:15px;" id="m-read">—</p>
-      </div>
-      <div class="card" style="margin-bottom:14px;">
-        <span class="label" style="color:var(--danger);display:block;margin-bottom:8px;">WATCH FOR THIS</span>
-        <p class="body" style="font-size:15px;" id="m-watch">—</p>
-      </div>
-      <p style="font-size:11px;color:var(--text3);margin-bottom:22px;line-height:1.6;">First reading from <span id="sig-count">0</span> signals. Gets more accurate as your vault fills.</p>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <button class="btn btn-primary" onclick="goTo('brands')" style="width:100%;">see my brand matches →</button>
-        <button class="btn" onclick="goTo('dashboard')" style="width:100%;">go to dashboard</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="screen-brands" class="screen">
-  <div style="padding:20px 20px 0;">
-    <div class="container">
-      <button class="btn btn-ghost" style="padding:8px 0;min-height:0;margin-bottom:11px;" onclick="goTo('reveal')">← mirror</button>
-      <span class="label" style="color:var(--accent);display:block;margin-bottom:5px;">IDENTITY-MATCHED BRANDS</span>
-      <h2 class="display-sm italic" style="margin-bottom:6px;">Brands that fit who you actually are.</h2>
-      <p class="body" style="font-size:13px;margin-bottom:11px;">Apparel. Sneakers. Fragrance. Grooming. Accessories. Ranked by your mirror — not by who paid us.</p>
-      <div style="background:rgba(168,200,112,.06);border:1px solid rgba(168,200,112,.2);border-radius:8px;padding:10px 14px;margin-bottom:6px;">
-        <p style="font-size:11px;color:var(--accent);line-height:1.5;">No brand pays for placement here. Every recommendation comes from your mirror data alone.</p>
-      </div>
-    </div>
-  </div>
-  <div style="padding:10px 0 0;">
-    <div class="cat-filter">
-      <button class="cat-btn active" onclick="filterBrands('all',this)">ALL</button>
-      <button class="cat-btn" onclick="filterBrands('apparel',this)">APPAREL</button>
-      <button class="cat-btn" onclick="filterBrands('sneakers',this)">SNEAKERS</button>
-      <button class="cat-btn" onclick="filterBrands('fragrance',this)">FRAGRANCE</button>
-      <button class="cat-btn" onclick="filterBrands('grooming',this)">GROOMING</button>
-      <button class="cat-btn" onclick="filterBrands('accessories',this)">ACCESSORIES</button>
-    </div>
-  </div>
-  <div class="scroll-content" style="padding:0 20px 40px;">
-    <div id="brands-container"></div>
-    <button class="btn btn-primary" onclick="goTo('dashboard')" style="width:100%;margin-top:8px;">go to dashboard →</button>
-  </div>
-</div>
-
-<div id="screen-dashboard" class="screen">
-  <div style="flex:1;display:flex;flex-direction:column;">
-    <div class="scroll-content" style="padding:22px 20px 20px;">
-      <div class="container">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-          <span style="font-size:10px;letter-spacing:4px;color:var(--text3);">F · I · B · E · R</span>
-          <span class="label" id="dash-date">—</span>
+        <span class="label">Stage 01 // Instinct</span>
+        <h2 class="hero-text" style="font-size: 2.2rem;">Don't think. <br>Just react.</h2>
+        
+        <div class="grid">
+            <div class="tile" onclick="this.classList.toggle('selected')">90s Hip Hop</div>
+            <div class="tile" onclick="this.classList.toggle('selected')">Military Utility</div>
+            <div class="tile" onclick="this.classList.toggle('selected')">3AM Awake</div>
+            <div class="tile" onclick="this.classList.toggle('selected')">Quiet Luxury</div>
+            <div class="tile" onclick="this.classList.toggle('selected')">Raw Denim</div>
+            <div class="tile" onclick="this.classList.toggle('selected')">Old Bangalore</div>
         </div>
-        <div class="pulse-card">
-          <span class="label" style="color:var(--accent);display:block;margin-bottom:7px;">MIRROR PULSE</span>
-          <p class="body" style="font-size:14px;" id="dash-pulse">Build your mirror to get a personalised pulse reading.</p>
+
+        <div style="margin-top: 40px;">
+            <button class="btn" onclick="showScreen('landing')">Back</button>
         </div>
-        <div class="stat-row" style="margin-bottom:14px;">
-          <div class="stat-box"><span class="stat-number">0</span><span class="stat-label-sm">IN VAULT</span></div>
-          <div class="stat-box"><span class="stat-number">0</span><span class="stat-label-sm">NEVER WORN</span></div>
-          <div class="stat-box"><span class="stat-number">—</span><span class="stat-label-sm">AVG ₹/WEAR</span></div>
-        </div>
-        <div class="card" style="margin-bottom:13px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;">
-            <span class="label" style="color:var(--text);">CONSIDERATION LIST</span>
-            <button class="btn" style="font-size:11px;padding:5px 10px;min-height:0;" onclick="addItem()">+ add</button>
-          </div>
-          <div class="ci"><div style="flex:1;"><div style="font-size:14px;color:var(--text);margin-bottom:2px;">White Oxford Shirt</div><div style="font-size:11px;color:var(--text3);margin-bottom:5px;">Uniqlo · 8 days cooling</div><div class="cool-bg"><div class="cool-fill" style="width:57%;"></div></div></div><span style="font-size:11px;color:var(--text3);flex-shrink:0;">6d left</span></div>
-          <div class="ci"><div style="flex:1;"><div style="font-size:14px;color:var(--text);margin-bottom:2px;">Olive Cargo Trousers</div><div style="font-size:11px;color:var(--text3);margin-bottom:5px;">The Bear House · 13 days cooling</div><div class="cool-bg"><div class="cool-fill" style="width:93%;"></div></div></div><span style="font-size:11px;color:var(--accent);flex-shrink:0;font-weight:700;">decide</span></div>
-          <div class="ci" style="border-bottom:none;"><div style="flex:1;"><div style="font-size:14px;color:var(--text);margin-bottom:2px;">Navy Linen Shirt</div><div style="font-size:11px;color:var(--danger);margin-bottom:5px;">Vault has 2 similar items</div><div class="cool-bg"><div class="cool-fill" style="width:28%;"></div></div></div><span style="font-size:11px;color:var(--text3);flex-shrink:0;">10d left</span></div>
-        </div>
-        <div class="card" style="margin-bottom:13px;">
-          <span class="label" style="color:var(--text);display:block;margin-bottom:8px;">FABRIC DECODER</span>
-          <p class="body" style="font-size:13px;margin-bottom:10px;">Type a garment label. Get an honest analysis.</p>
-          <textarea id="fabric-input" rows="2" placeholder="e.g. 100% cotton, 180 GSM, Made in India..." style="margin-bottom:10px;min-height:70px;font-size:16px;"></textarea>
-          <button class="btn btn-primary" onclick="decodeFabric()" style="width:100%;">decode label →</button>
-      
+    </div>
+</div>
+
+<script>
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+</script>
+</body>
+</html>
